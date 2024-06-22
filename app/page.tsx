@@ -1,3 +1,10 @@
+import { heroImg } from "@/lib";
+import Image from "next/image";
+
 export default function Home() {
-  return <h1 className="text-3xl font-bold underline">Hola mundo</h1>;
+  return (
+    <>
+      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+    </>
+  );
 }
