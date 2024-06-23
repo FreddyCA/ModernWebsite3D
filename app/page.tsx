@@ -1,3 +1,16 @@
+import { heroImg } from "@/lib";
+import Hero from "@/ui/hero";
+import Highlights from "@/ui/highlights";
+
+import Navbar from "@/ui/navbar";
+import Image from "next/image";
+
 export default function Home() {
-  return <h1 className="text-3xl font-bold underline">Hola mundo</h1>;
+  return (
+    <main>
+      <Navbar />
+      <Hero />
+      <Highlights />
+    </main>
+  );
 }
