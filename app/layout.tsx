@@ -6,8 +6,8 @@ import '@/app/global.css';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Init",
-  description: "Init",
+  title: "3D Apple",
+  description: "Desarrollo de un sitio web con GSAP y Three.js",
 };
 
 export default function RootLayout({
