@@ -9,7 +9,7 @@
 //   yellowImg,
 // } from "../lib/index";
 
-// export const navLists = ["Store", "Mac", "iPhone", "Support"];
+export const navLists = ["Store", "Mac", "iPhone", "Support"];
 
 // verificar las importaciones de video ***********
 // export const hightlightsSlides = [
