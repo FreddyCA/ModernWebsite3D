@@ -8,15 +8,14 @@ const heroVideo = "/assets/videos/hero.mp4";
 const smallHeroVideo = "/assets/videos/smallHero.mp4";
 
 export default function Hero() {
-  const [videoSrc, setVideoSrc] = useState<string | undefined>(undefined);
-
+  const [statusResize, setStatusResize] = useState<boolean | null>(null);
   useEffect(() => {
     const handleVideoSrcSet = () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== undefined) {
         if (window.innerWidth < 760) {
-          setVideoSrc(smallHeroVideo);
+          setStatusResize(true);
         } else {
-          setVideoSrc(heroVideo);
+          setStatusResize(false);
         }
       }
     };
@@ -38,19 +37,32 @@ export default function Hero() {
         <p id="hero" className="hero-title">
           iPhone 15 Pro
         </p>
-        <div className="md:w-10/12 w-9/12">
-          <Suspense fallback={<p>hola</p>}>
-            <video
-              className="pointer-events-none"
-              autoPlay
-              muted
-              playsInline={true}
-              key={videoSrc}
-            >
-              <source src={videoSrc} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </Suspense>
+        <div
+          className="md:w-10/12 w-9/12"
+          style={{ opacity: statusResize !== null ? 1 : 0 }}
+        >
+          <video
+            className="pointer-events-none"
+            style={{ display: statusResize ? "block" : "none" }}
+            autoPlay
+            muted
+            playsInline={true}
+            key={smallHeroVideo}
+          >
+            <source src={smallHeroVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <video
+            className="pointer-events-none"
+            style={{ display: !statusResize ? "block" : "none" }}
+            autoPlay
+            muted
+            playsInline={true}
+            key={heroVideo}
+          >
+            <source src={heroVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
 
