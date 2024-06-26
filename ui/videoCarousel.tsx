@@ -152,11 +152,11 @@ export default function VideoCarousel() {
     }
   }, [videoId, startPlay, isPlaying]);
 
-  type ProcessType = "video-end" | "video-last" | "video-reset" | "play";
-  const handleProcess = (type: ProcessType, i: number) => {
+  type ProcessType = "video-end" | "video-last" | "video-reset" | "play" | "pause";
+  const handleProcess = (type: ProcessType) => {
     switch (type) {
       case "video-end":
-        setVideo((pre) => ({ ...pre, isEnd: true, videoId: i + 1 }));
+        setVideo((pre) => ({ ...pre, isEnd: true }));
         break;
 
       case "video-last":
@@ -254,7 +254,7 @@ export default function VideoCarousel() {
             alt={isLastVideo ? "replay" : !isPlaying ? "play" : "pause"}
             onClick={
               isLastVideo
-                ? () => handleProcess("video-reset")
+                ? (e) => handleProcess("video-reset")
                 : !isPlaying
                 ? () => handleProcess("play")
                 : () => handleProcess("pause")
