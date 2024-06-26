@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 interface VideoMetadataEvent extends React.SyntheticEvent<HTMLVideoElement> {
   target: HTMLVideoElement;
 }
-// gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger)
 
 export default function VideoCarousel() {
   // const videoRef = useRef([]);
