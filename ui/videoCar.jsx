@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger);
 import { useEffect, useRef, useState } from "react";
 
 import { hightlightsSlides } from "../constants";
-import { pauseImg, playImg } from "@/lib";
+import { pauseImg, playImg, replayImg } from "@/lib";
 import Image from "next/image";
 // import { pauseImg, playImg, replayImg } from "../utils";
 
