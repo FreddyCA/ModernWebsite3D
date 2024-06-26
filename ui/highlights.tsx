@@ -35,8 +35,8 @@ export default function Highlights() {
           </div>
         </div>
 
-        {/* <VideoCarousel /> */}
-        <VideoCar />
+        <VideoCarousel />
+        {/* <VideoCar /> */}
       </div>
     </section>
   );
