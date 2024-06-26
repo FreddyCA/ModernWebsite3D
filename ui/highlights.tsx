@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import { rightImg, watchImg } from "@/lib";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import VideoCarousel from "./videoCarousel";
+import VideoCar from "./videoCar";
 
 export default function Highlights() {
   useGSAP(() => {
@@ -34,7 +35,8 @@ export default function Highlights() {
           </div>
         </div>
 
-        <VideoCarousel />
+        {/* <VideoCarousel /> */}
+        <VideoCar />
       </div>
     </section>
   );
