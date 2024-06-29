@@ -3,6 +3,7 @@ import Hero from "@/ui/hero";
 import Highlights from "@/ui/highlights";
 
 import Navbar from "@/ui/navbar";
+import NextScroll from "@/ui/nextScroll";
 import PruebaScroll from "@/ui/pruebaScroll";
 import Image from "next/image";
 
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero />
       {/* <Highlights /> */}
       <PruebaScroll />
+      <NextScroll />
     </main>
   );
 }
