@@ -5,6 +5,7 @@ import Highlights from "@/ui/highlights";
 import Navbar from "@/ui/navbar";
 import NextScroll from "@/ui/nextScroll";
 import PruebaScroll from "@/ui/pruebaScroll";
+import VideoCarouselV2 from "@/ui/videoCarouselV2";
 import Image from "next/image";
 
 export default function Home() {
@@ -13,8 +14,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       {/* <Highlights /> */}
-      <PruebaScroll />
-      <NextScroll />
+      {/* <PruebaScroll /> */}
+      {/* <NextScroll /> */}
+      <VideoCarouselV2 />
     </main>
   );
 }
