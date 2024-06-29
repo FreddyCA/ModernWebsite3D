@@ -49,7 +49,7 @@ const NextScroll: React.FC = () => {
       <div
         ref={containerRef}
         style={{
-          overflow: "hidden",
+          overflow: "auto",
           whiteSpace: "nowrap",
           width: "100%",
           position: "relative",

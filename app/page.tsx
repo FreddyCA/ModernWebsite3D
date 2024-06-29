@@ -17,6 +17,14 @@ export default function Home() {
       {/* <PruebaScroll /> */}
       {/* <NextScroll /> */}
       <VideoCarouselV2 />
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+        }}
+      >
+        a
+      </div>
     </main>
   );
 }
