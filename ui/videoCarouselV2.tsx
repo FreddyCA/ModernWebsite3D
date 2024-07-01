@@ -9,20 +9,22 @@ export default function VideoCarouselV2() {
   const espacioBolRef = useRef<(HTMLSpanElement | null)[]>([]);
   const cargadorBolRef = useRef<(HTMLSpanElement | null)[]>([]);
 
-  const videoRef = useRef<(HTMLVideoElement | null)[]>([]);
-
   const containerRef = useRef<HTMLDivElement>(null); //contenedor mayor
   const blockItemRef = useRef<HTMLDivElement[]>([]); //contenedor de cada itemBlock
+  const videoRef = useRef<(HTMLVideoElement | null)[]>([]); //videos
   const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(0);
   const [initVideo, setInitVideo] = useState<boolean>(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isLastVideo, setIsLastVideo] = useState(false);
 
   console.log(initVideo);
   useEffect(() => {
     const container = containerRef.current;
-    const items = blockItemRef.current;
     if (!container) return;
 
-    const item = items[0];
+    const item = blockItemRef.current[0];
+    if (!item) return;
+
     const containerWidth = container.clientWidth;
     const itemWidth = item.clientWidth;
     const itemOffset = item.offsetLeft;
@@ -40,13 +42,9 @@ export default function VideoCarouselV2() {
         once: true,
       },
     });
-    tl.to(blockItemRef, {
-      onStart: () => {
-        gsap.to(container, {
-          x: -centerPosition,
-          ease: "power1",
-        });
-      },
+    tl.to(container, {
+      x: -centerPosition,
+      ease: "power1",
     });
     // enfocar el primer item:
     // if (initVideo) return;
@@ -72,25 +70,70 @@ export default function VideoCarouselV2() {
     if (!initVideo) return;
     console.log("activo secuencia de videos");
     const currentVideo = videoRef.current[currentVideoIndex];
+
     const reproduccionVideo = () => {
-      console.log("reproducioendo", currentVideoIndex);
+      console.log("reproduciendo", currentVideoIndex);
       if (currentVideo) {
         currentVideo.play();
       }
       currentVideo?.addEventListener("ended", handleIndexVideo);
     };
+
     const handleIndexVideo = () => {
       if (currentVideoIndex < hightlightsSlides.length - 1) {
         setCurrentVideoIndex(currentVideoIndex + 1);
+      } else {
+        setIsLastVideo(true);
       }
     };
-    reproduccionVideo();
+
+    if (!isPaused) {
+      reproduccionVideo();
+    }
+
     return () => {
       if (currentVideo) {
         currentVideo.removeEventListener("ended", handleIndexVideo);
       }
     };
-  }, [initVideo, currentVideoIndex]);
+  }, [initVideo, currentVideoIndex, isPaused]);
+
+  // manejo de pausa del video
+  const handlePauseResume = () => {
+    setIsPaused((prevState) => {
+      const newIsPaused = !prevState;
+      const currentVideo = videoRef.current[currentVideoIndex];
+      if (currentVideo) {
+        if (newIsPaused) {
+          currentVideo.pause();
+        } else {
+          currentVideo.play();
+        }
+      }
+      return newIsPaused;
+    });
+  };
+
+  // restableciendo los videos
+  const handleRestart = () => {
+    setCurrentVideoIndex(0);
+    setIsPaused(false);
+    setIsLastVideo(false);
+    setInitVideo(true);
+
+    const container = containerRef.current;
+    const firstItem = blockItemRef.current[0];
+    if (container && firstItem) {
+      const containerWidth = container.clientWidth;
+      const itemWidth = firstItem.clientWidth;
+      const itemOffset = firstItem.offsetLeft;
+      const centerPosition = itemOffset - containerWidth / 2 + itemWidth / 2;
+      gsap.to(container, {
+        x: -centerPosition,
+        ease: "power1",
+      });
+    }
+  };
 
   //   posicionamiento de los items
   useEffect(() => {
@@ -251,7 +294,13 @@ export default function VideoCarouselV2() {
           </span>
         ))}
         <div style={{ padding: "1rem" }}>
-          <button onClick={handleVideoStatus}>hola</button>
+          {!isLastVideo ? (
+            <button onClick={handlePauseResume}>
+              {isPaused ? "Reanudar" : "Pausar"} Video
+            </button>
+          ) : (
+            <button onClick={handleRestart}>Reiniciar Videos</button>
+          )}
         </div>
       </div>
     </>
