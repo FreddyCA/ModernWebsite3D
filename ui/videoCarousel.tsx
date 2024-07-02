@@ -36,7 +36,7 @@ export default function VideoCarousel() {
         trigger: container,
         start: "bottom 90%",
         end: "top 50%",
-        markers: true,
+        // markers: true,
         onEnter: () => {
           setInitVideo(true);
         },
@@ -47,23 +47,20 @@ export default function VideoCarousel() {
       x: -centerPosition,
       ease: "power1",
     });
-    // enfocar el primer item:
-    // if (initVideo) return;
-    // const centerItem = () => {
-    //   gsap.to(container, {
-    //     x: -centerPosition,
-    //     ease: "power1",
-    //   });
-    // };
-    // centerItem();
-    // const handleResize = () => {
-    //   centerItem();
-    // };
-    // window.addEventListener("resize", handleResize);
+  }, []);
 
-    // return () => {
-    //   window.removeEventListener("resize", handleResize);
-    // };
+  // centrear el elemento enfocado
+  useEffect(() => {
+    const handleResize = () => {
+      setTimeout(() => {
+        handleRestart();
+      }, 1000);
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   //   iniciar los videos
@@ -150,7 +147,7 @@ export default function VideoCarousel() {
     const containerWidth = container.clientWidth;
     const itemWidth = item.clientWidth;
     const itemOffset = item.offsetLeft;
-    const centerPosition = itemOffset - containerWidth / 2 + itemWidth / 2 + 30;
+    const centerPosition = itemOffset - containerWidth / 2 + itemWidth / 2;
     gsap.to(container, {
       x: -centerPosition,
       ease: "power1",
@@ -242,11 +239,13 @@ export default function VideoCarousel() {
         >
           {hightlightsSlides.map((list, index) => (
             <div
-              style={{
-                margin: "0 60px 0 0",
-              }}
+              style={
+                {
+                  // margin: "0 60px 0 0",
+                }
+              }
               key={list.id}
-              className="video-carousel_container"
+              className="video-carousel_container sm:mr-12 mr-5"
               ref={(el) => {
                 blockItemRef.current[index] = el!;
               }}

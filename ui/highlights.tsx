@@ -15,10 +15,10 @@ export default function Highlights() {
   return (
     <section
       id="highlights"
-      className="w-screen overflow-hidden h-full common-padding bg-zinc"
+      className="w-screen overflow-hidden h-full common-padding-highligths bg-zinc"
     >
       <div className="screen-max-width">
-        <div className="mb-12 w-full md:flex items-end justify-between">
+        <div className="mb-12 w-full md:flex items-end justify-between px-5 sm:px-10">
           <h1 id="title" className="section-heading">
             Get the highlights.
           </h1>
