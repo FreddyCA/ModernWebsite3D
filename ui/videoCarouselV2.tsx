@@ -1,7 +1,9 @@
 "use client";
 import { hightlightsSlides } from "@/constants";
+import { pauseImg, playImg, replayImg } from "@/lib";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
@@ -133,6 +135,12 @@ export default function VideoCarouselV2() {
         ease: "power1",
       });
     }
+
+    // restableciendo la linea de tiempo del timeline
+    if (tlEspacioRef.current && tlCargadorRef.current) {
+      tlEspacioRef.current.restart(true);
+      tlCargadorRef.current.restart(true);
+    }
   };
 
   //   posicionamiento de los items
@@ -154,65 +162,70 @@ export default function VideoCarouselV2() {
   }, [currentVideoIndex]);
 
   //   linea de tiempo
+  const tlEspacioRef = useRef<gsap.core.Timeline | null>(null);
+  const tlCargadorRef = useRef<gsap.core.Timeline | null>(null);
+
   useEffect(() => {
     if (!initVideo) return;
 
     const espacioBol = espacioBolRef.current;
     const cargadorBol = cargadorBolRef.current;
 
-    // agrega la pausa o interacion con ese boton
-    const tl = gsap.timeline();
+    // Crear timelines separados
+    const tlEspacio = gsap.timeline({ paused: true });
+    const tlCargador = gsap.timeline({ paused: true });
 
     hightlightsSlides.forEach((item, index) => {
-      const videoDuration = item.videoDuration;
+      const durationVideo = item.videoDuration;
 
-      // Animación para cambiar el ancho de espacioBol y cargadorBol durante la duración del video
-      tl.to([espacioBol[index], cargadorBol[index]], {
+      // Animación para espacioBol
+      tlEspacio.to(espacioBol[index], {
         width: "70px",
-        duration: videoDuration,
+        duration: 0.2,
+      });
+      tlEspacio.to(espacioBol[index], {
+        width: "10px",
+        delay: durationVideo - 0.2,
+        duration: 0.1,
       });
 
-      // Animación para volver al ancho original después del video
-      tl.to([espacioBol[index], cargadorBol[index]], {
+      // Animación para cargadorBol
+      tlCargador.to(cargadorBol[index], {
+        width: "70px",
+        duration: durationVideo,
+      });
+      tlCargador.to(cargadorBol[index], {
         width: "10px",
         duration: 0.1,
       });
 
-      // corregir tiempos de animacion, se suman y extienden el mismo
-
-      // tl.to(espacioBol.current[index], {
-      //   duration: videoDuration,
-      //   onStart: () => {
-      //     gsap.to(espacioBol.current[index], {
-      //       width: "70px",
-      //       duration: 0.2,
-      //     });
-      //     gsap.to(cargadorBol.current[index], {
-      //       width: "70px",
-      //       duration: videoDuration,
-      //     });
-      //   },
-
-      //   onComplete: () => {
-      //     gsap.to(espacioBol.current[index], {
-      //       width: "10px",
-      //       duration: 0.1,
-      //     });
-      //     gsap.to(cargadorBol.current[index], {
-      //       width: "10px",
-      //       duration: 0.1,
-      //     });
-      //   },
-      // });
+      // Añadir separación entre animaciones para sincronización
+      tlEspacio.addLabel(`espacio-${index}`, `+=${durationVideo}`);
+      tlCargador.addLabel(`cargador-${index}`, `+=${durationVideo}`);
     });
-  }, [initVideo, isPaused]);
 
-  const handleVideoStatus = () => {
-    // arreglar el reset
-    // setCurrentVideoIndex(0);
-    // setInitVideo(false);
-    console.log("button");
-  };
+    tlEspacioRef.current = tlEspacio;
+    tlCargadorRef.current = tlCargador;
+    tlEspacio.play();
+    tlCargador.play();
+    return () => {
+      tlEspacio.kill();
+      tlCargador.kill();
+    };
+  }, [initVideo]);
+
+  useEffect(() => {
+    // manejo de pausas de las lineas de tiempo
+    if (tlEspacioRef.current && tlCargadorRef.current) {
+      if (isPaused) {
+        tlEspacioRef.current.pause();
+        tlCargadorRef.current.pause();
+      } else {
+        tlEspacioRef.current.resume();
+        tlCargadorRef.current.resume();
+      }
+    }
+  }, [isPaused]);
 
   return (
     <>
@@ -220,13 +233,11 @@ export default function VideoCarouselV2() {
       <div
         style={{
           display: "flex",
-          // overflow: "auto"
         }}
         ref={containerRef}
       >
         {/* sera el slider que contentra los items hiidden */}
         <div
-          //   ref={containerRef}
           style={{
             display: "flex",
             alignItems: "center",
@@ -236,7 +247,6 @@ export default function VideoCarouselV2() {
             <div
               style={{
                 margin: "0 60px 0 0",
-                // backgroundColor: "yellow",
               }}
               key={list.id}
               className="video-carousel_container"
@@ -245,7 +255,6 @@ export default function VideoCarouselV2() {
               }}
             >
               <div
-                // className="sm:pr-20 pr-10"
                 style={{
                   width: "100%",
                   height: "100%",
@@ -257,8 +266,6 @@ export default function VideoCarouselV2() {
                 }}
               >
                 <video
-                  id="video"
-                  //   autoPlay
                   playsInline={true}
                   muted
                   preload="auto"
@@ -302,7 +309,7 @@ export default function VideoCarouselV2() {
               style={{
                 width: "10px",
                 height: "10px",
-                backgroundColor: "white",
+                backgroundColor: "rgba(30, 255, 0, 0.822)",
               }}
               ref={(el) => {
                 cargadorBolRef.current[index] = el;
@@ -310,13 +317,19 @@ export default function VideoCarouselV2() {
             />
           </span>
         ))}
-        <div style={{ padding: "1rem" }}>
+        <div className="control-btn">
           {!isLastVideo ? (
             <button onClick={handlePauseResume}>
-              {isPaused ? "Reanudar" : "Pausar"} Video
+              {isPaused ? (
+                <Image src={playImg} alt="Reanudar" />
+              ) : (
+                <Image src={pauseImg} alt="Pausar" />
+              )}{" "}
             </button>
           ) : (
-            <button onClick={handleRestart}>Reiniciar Videos</button>
+            <button onClick={handleRestart}>
+              <Image src={replayImg} alt="" />
+            </button>
           )}
         </div>
       </div>
