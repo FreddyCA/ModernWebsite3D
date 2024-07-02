@@ -4,9 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import VideoCarousel from "./videoCarousel";
-import VideoCar from "./videoCar";
 
 export default function Highlights() {
+  // mejorar la animacion con scroltrigger
   useGSAP(() => {
     gsap.to("#title", { opacity: 1, y: 0 });
     gsap.to(".link", { opacity: 1, y: 0, duration: 1, stagger: 0.25 });
@@ -36,7 +36,6 @@ export default function Highlights() {
         </div>
 
         <VideoCarousel />
-        {/* <VideoCar /> */}
       </div>
     </section>
   );
