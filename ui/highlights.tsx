@@ -1,15 +1,38 @@
 "use client";
 import { rightImg, watchImg } from "@/lib";
-import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
 import VideoCarousel from "./videoCarousel";
+import { useEffect, useRef } from "react";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Highlights() {
-  // mejorar la animacion con scroltrigger
-  useGSAP(() => {
-    gsap.to("#title", { opacity: 1, y: 0 });
-    gsap.to(".link", { opacity: 1, y: 0, duration: 1, stagger: 0.25 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "bottom 85%",
+        end: "top 50%",
+        toggleActions: "play none none reverse",
+      },
+    });
+    tl.to("#title", {
+      opacity: 1,
+      y: 0,
+    }).to(".link", {
+      opacity: 1,
+      y: 0,
+      duration: 0.75,
+      stagger: 0.25,
+    });
+    return () => {
+      tl.scrollTrigger?.kill();
+    };
   }, []);
 
   return (
@@ -18,7 +41,10 @@ export default function Highlights() {
       className="w-screen overflow-hidden h-full common-padding-highligths bg-zinc"
     >
       <div className="screen-max-width">
-        <div className="mb-12 w-full md:flex items-end justify-between px-5 sm:px-10">
+        <div
+          ref={containerRef}
+          className="mb-12 w-full md:flex items-end justify-between px-5 sm:px-10"
+        >
           <h1 id="title" className="section-heading">
             Get the highlights.
           </h1>
