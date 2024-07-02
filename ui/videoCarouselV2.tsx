@@ -142,7 +142,6 @@ export default function VideoCarouselV2() {
     const container = containerRef.current;
     const items = blockItemRef.current;
     if (!container) return;
-
     const item = items[currentVideoIndex];
     const containerWidth = container.clientWidth;
     const itemWidth = item.clientWidth;
@@ -156,39 +155,57 @@ export default function VideoCarouselV2() {
 
   //   linea de tiempo
   useEffect(() => {
-    const espacioBol = espacioBolRef;
-    const cargadorBol = cargadorBolRef;
-    const duracionVideo = [4, 5, 2, 3.63];
-
     if (!initVideo) return;
+
+    const espacioBol = espacioBolRef.current;
+    const cargadorBol = cargadorBolRef.current;
+
+    // agrega la pausa o interacion con ese boton
     const tl = gsap.timeline();
+
     hightlightsSlides.forEach((item, index) => {
       const videoDuration = item.videoDuration;
-      tl.to(espacioBol.current[index], {
+
+      // Animación para cambiar el ancho de espacioBol y cargadorBol durante la duración del video
+      tl.to([espacioBol[index], cargadorBol[index]], {
+        width: "70px",
         duration: videoDuration,
-        onStart: () => {
-          gsap.to(espacioBol.current[index], {
-            width: "70px",
-            duration: 0.2,
-          });
-          gsap.to(cargadorBol.current[index], {
-            width: "70px",
-            duration: videoDuration,
-          });
-        },
-        onComplete: () => {
-          gsap.to(espacioBol.current[index], {
-            width: "10px",
-            duration: 0.1,
-          });
-          gsap.to(cargadorBol.current[index], {
-            width: "10px",
-            duration: 0.1,
-          });
-        },
       });
+
+      // Animación para volver al ancho original después del video
+      tl.to([espacioBol[index], cargadorBol[index]], {
+        width: "10px",
+        duration: 0.1,
+      });
+
+      // corregir tiempos de animacion, se suman y extienden el mismo
+
+      // tl.to(espacioBol.current[index], {
+      //   duration: videoDuration,
+      //   onStart: () => {
+      //     gsap.to(espacioBol.current[index], {
+      //       width: "70px",
+      //       duration: 0.2,
+      //     });
+      //     gsap.to(cargadorBol.current[index], {
+      //       width: "70px",
+      //       duration: videoDuration,
+      //     });
+      //   },
+
+      //   onComplete: () => {
+      //     gsap.to(espacioBol.current[index], {
+      //       width: "10px",
+      //       duration: 0.1,
+      //     });
+      //     gsap.to(cargadorBol.current[index], {
+      //       width: "10px",
+      //       duration: 0.1,
+      //     });
+      //   },
+      // });
     });
-  }, [initVideo]);
+  }, [initVideo, isPaused]);
 
   const handleVideoStatus = () => {
     // arreglar el reset
