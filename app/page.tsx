@@ -1,6 +1,7 @@
 import Hero from "@/ui/hero";
 import Navbar from "@/ui/navbar";
 import Highlights from "@/ui/highlights";
+import Model from "@/ui/model";
 
 export default function Home() {
   return (
@@ -8,14 +9,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Highlights />
-      <div
-        style={{
-          height: "100vh",
-          width: "100vw",
-        }}
-      >
-        a
-      </div>
+      <Model />
     </main>
   );
 }

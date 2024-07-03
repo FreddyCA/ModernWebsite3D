@@ -116,6 +116,8 @@ export default function VideoCarousel() {
     setIsPaused(false);
     setIsLastVideo(false);
     setInitVideo(true);
+    const currentVideo = videoRef.current[0];
+    currentVideo?.play();
 
     const container = containerRef.current;
     const firstItem = blockItemRef.current[0];
