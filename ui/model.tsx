@@ -16,20 +16,18 @@ export default function Model() {
     img: yellowImg,
   });
 
-  // const rootElement = document.getElementById("root");
   const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
-
   useEffect(() => {
     setRootElement(document.getElementById("root"));
   }, []);
- 
+
   // camera control for the model view
   const cameraControlSmall = useRef();
   const cameraControlLarge = useRef();
 
   // model
-  const small = useRef(new THREE.Group());
-  const large = useRef(new THREE.Group());
+  const small = useRef<THREE.Group>(new THREE.Group());
+  const large = useRef<THREE.Group>(new THREE.Group());
 
   // rotation
   const [smallRotation, setSmallRotation] = useState(0);
@@ -37,15 +35,21 @@ export default function Model() {
 
   const tl = gsap.timeline();
 
+  // buscar info de como usar el archivo glv con trejs y nextjs
+
   return (
     <section className="common-padding">
       <div className="screen-max-width">
         <h1 id="heading" className="section-heading">
-          Take a closer look
+          Take a closer look.
         </h1>
 
         <div className="flex flex-col items-center mt-5">
-          <div className="w-full h-[75vh] md:h-[90vh]">
+          <div
+            // no tendria que tener relative
+            style={{ position: "relative" }}
+            className=" w-full h-[75vh] md:h-[90vh] overflow-hidden relative"
+          >
             <ModelView
               index={1}
               groupRef={small}
@@ -69,7 +73,8 @@ export default function Model() {
             <Canvas
               className="w-full h-full"
               style={{
-                position: "fixed",
+                // position: 'fixed',
+                position: "absolute",
                 top: 0,
                 bottom: 0,
                 left: 0,
