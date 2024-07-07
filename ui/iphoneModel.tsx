@@ -81,18 +81,16 @@ type GLTFResult = GLTF & {
   };
 };
 
-
 export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/models/Scene.glb") as GLTFResult;
-  const meshRef = useRef<THREE.Mesh>();
-
+  const groupRef = useRef<THREE.Group>(null);
   useFrame(() => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.01;
+    if (groupRef.current) {
+      groupRef.current.rotation.y += 0.004;
     }
   });
   return (
-    <group {...props} >
+    <group ref={groupRef} {...props} dispose={null}>
       <mesh
         castShadow
         receiveShadow

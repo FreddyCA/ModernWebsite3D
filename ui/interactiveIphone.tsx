@@ -7,17 +7,19 @@ import {
 import { Canvas } from "@react-three/fiber";
 import { IphoneModel } from "./iphoneModel";
 import { Suspense } from "react";
+import Lights from "./lights";
 
 export default function InteractiveIphone() {
   return (
+    // <Canvas camera={{ position: [0, 0, 0.2] }}>
     <Canvas>
-      <ambientLight intensity={1} />
-      <directionalLight color={"white"} position={[0, 0, 5]} />
+      <ambientLight intensity={0.3} />
+      <Lights />
+
       <Suspense fallback={null}>
-        <IphoneModel />
-        <Environment preset="sunset" background />
-        <OrbitControls />
+        <IphoneModel scale={[30, 30, 30]} position={[0, 0, 0]} />
       </Suspense>
+      <OrbitControls />
     </Canvas>
   );
 }
