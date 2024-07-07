@@ -80,7 +80,7 @@ type GLTFResult = GLTF & {
     HGhEhpqSBZRnjHC: THREE.MeshStandardMaterial;
   };
 };
-const ubicacionModel = "/models/Scene.glb";
+const ubicacionModel = "/models/scene.glb";
 
 export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(ubicacionModel) as GLTFResult;
