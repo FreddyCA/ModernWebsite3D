@@ -13,7 +13,7 @@ export default function InteractiveIphone() {
   return (
     // <Canvas camera={{ position: [0, 0, 0.2] }}>
     <Canvas>
-      <ambientLight intensity={0.3} />
+      <ambientLight intensity={0.2} />
       <Lights />
 
       <Suspense fallback={null}>

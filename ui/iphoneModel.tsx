@@ -80,9 +80,10 @@ type GLTFResult = GLTF & {
     HGhEhpqSBZRnjHC: THREE.MeshStandardMaterial;
   };
 };
+const ubicacionModel = "/models/Scene.glb";
 
 export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF("/models/Scene.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF(ubicacionModel) as GLTFResult;
   const groupRef = useRef<THREE.Group>(null);
   useFrame(() => {
     if (groupRef.current) {
@@ -312,4 +313,4 @@ export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload("/models/Scene.glb");
+useGLTF.preload(ubicacionModel);
