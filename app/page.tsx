@@ -6,6 +6,7 @@ import PruebaGLB from "@/ui/pruebaGLB";
 import ModelosGLTF from "@/ui/modelosGLTF";
 import ModelViewV2 from "@/ui/ModelViewV2";
 import InteractiveIphone from "@/ui/interactiveIphone";
+import ModelInteractive from "@/ui/modelInteractive";
 
 export default function Home() {
   return (
@@ -13,8 +14,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Highlights />
-      <Model />
-      <div
+      {/* <Model /> */}
+      <ModelInteractive />
+      {/* <div
         className="screen-max-width"
         style={{
           height: "100vh",
@@ -57,7 +59,8 @@ export default function Home() {
         }}
       >
         <InteractiveIphone />
-      </div>
+      </div> */}
+      
     </main>
   );
 }

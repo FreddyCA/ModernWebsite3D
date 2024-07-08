@@ -6,18 +6,27 @@ import {
 } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { IphoneModel } from "./iphoneModel";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Lights from "./lights";
 
-export default function InteractiveIphone() {
+type InteractiveIphoneProps = {
+  scaleIphone?: [number, number, number];
+  index: number;
+  size: string;
+};
+export default function InteractiveIphone({
+  scaleIphone,
+  index,
+  size,
+}: InteractiveIphoneProps) {
   return (
-    // <Canvas camera={{ position: [0, 0, 0.2] }}>
-    <Canvas>
+    <Canvas style={{ minWidth: "100%" }}>
       <ambientLight intensity={0.2} />
       <Lights />
+      {/* completar el otro iphone mas y como cambiar colores */}
 
       <Suspense fallback={null}>
-        <IphoneModel scale={[30, 30, 30]} position={[0, 0, 0]} />
+        <IphoneModel scale={scaleIphone} position={[0, 0, 0]} />
       </Suspense>
       <OrbitControls />
     </Canvas>
