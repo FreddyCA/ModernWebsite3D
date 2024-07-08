@@ -7,10 +7,12 @@ Title: Apple iPhone 15 Pro Max Black
 */
 
 import * as THREE from "three";
-import React, { useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import React, { useEffect, useRef } from "react";
+import { useGLTF, useTexture } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useFrame } from "@react-three/fiber";
+import { StaticImageData } from "next/image";
+import { strict } from "assert";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -82,16 +84,47 @@ type GLTFResult = GLTF & {
 };
 const ubicacionModel = "/models/scene.glb";
 
-export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
+type IphoneModelProps = {
+  model: {
+    title: string;
+    color: string[];
+    img: string | StaticImageData;
+  };
+  scale?: [number, number, number];
+  position?: [number, number, number];
+};
+
+// export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
+export function IphoneModel({ model, scale, position }: IphoneModelProps) {
   const { nodes, materials } = useGLTF(ubicacionModel) as GLTFResult;
   const groupRef = useRef<THREE.Group>(null);
+
+  const textureUrl = typeof model.img === "string" ? model.img : model.img.src;
+  const texture = useTexture(textureUrl);
+
+  useEffect(() => {
+    Object.entries(materials).map((material) => {
+      if (
+        material[0] !== "zFdeDaGNRwzccye" &&
+        material[0] !== "ujsvqBWRMnqdwPx" &&
+        material[0] !== "hUlRcbieVuIiOXG" &&
+        material[0] !== "jlzuBkUzuJqgiAK" &&
+        material[0] !== "xNrofRCqOXXHVZt"
+      ) {
+        material[1].color = new THREE.Color(model.color[0]);
+      }
+      material[1].needsUpdate = true;
+    });
+  }, [materials, model]);
+
   useFrame(() => {
     if (groupRef.current) {
       groupRef.current.rotation.y += 0.004;
     }
   });
+
   return (
-    <group ref={groupRef} {...props} dispose={null}>
+    <group ref={groupRef} scale={scale} position={position} dispose={null}>
       <mesh
         castShadow
         receiveShadow
@@ -197,13 +230,16 @@ export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
         material={materials.sxNzrmuTqVeaXdg}
         scale={0.01}
       />
+      {/* PANTALLA */}
       <mesh
         castShadow
         receiveShadow
         geometry={nodes.xXDHkMplTIDAXLN.geometry}
         material={materials.pIJKfZsazmcpEiU}
         scale={0.01}
-      />
+      >
+        <meshStandardMaterial roughness={1} map={texture} />
+      </mesh>
       <mesh
         castShadow
         receiveShadow
@@ -239,6 +275,7 @@ export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
         material={materials.PaletteMaterial003}
         scale={0.01}
       />
+      {/* MANZANITA: */}
       <mesh
         castShadow
         receiveShadow
@@ -246,6 +283,7 @@ export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
         material={materials.PaletteMaterial004}
         scale={0.01}
       />
+      {/* CARCASA: */}
       <mesh
         castShadow
         receiveShadow

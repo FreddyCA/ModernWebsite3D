@@ -3,7 +3,6 @@ import { models, sizes } from "@/constants";
 import { yellowImg } from "@/lib";
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
-import { IphoneModel } from "./iphoneModel";
 import InteractiveIphone from "./interactiveIphone";
 
 export default function ModelInteractive() {
@@ -45,7 +44,6 @@ export default function ModelInteractive() {
     if (!containerIphoneRef.current) return;
     const containerIphones = containerIphoneRef.current;
     const widthFirstChild = containerIphones?.children[0].clientWidth * -1;
-    console.log(widthFirstChild);
 
     if (size === "large") {
       gsap.to(containerIphones.children, {
@@ -82,6 +80,7 @@ export default function ModelInteractive() {
       });
     }
   }, [size, initSettings]);
+
   return (
     <section
       className="common-padding"
@@ -105,8 +104,18 @@ export default function ModelInteractive() {
           className="h-[75vh] md:h-[80vh] md:w-full w-[80%] mx-auto "
           ref={containerIphoneRef}
         >
-          <InteractiveIphone scaleIphone={[30, 30, 30]} index={1} size={size} />
-          <InteractiveIphone scaleIphone={[35, 35, 35]} index={2} size={size} />
+          <InteractiveIphone
+            model={model}
+            scaleIphone={[30, 30, 30]}
+            index={1}
+            size={size}
+          />
+          <InteractiveIphone
+            model={model}
+            scaleIphone={[35, 35, 35]}
+            index={2}
+            size={size}
+          />
         </div>
 
         {/* buttons interactive */}
@@ -135,7 +144,9 @@ export default function ModelInteractive() {
                   }}
                   onClick={() => {
                     setSize(value);
-                    setInitSettings(true);
+                    if (!initSettings) {
+                      setInitSettings(true);
+                    }
                   }}
                 >
                   {label}
