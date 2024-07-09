@@ -34,8 +34,8 @@ export default function ModelInteractive() {
     img: yellowImg,
   });
 
+  // ANIMACION CAROUSEL PHONES
   const containerIphoneRef = useRef<HTMLDivElement>(null);
-
   const [initSettings, setInitSettings] = useState(false);
 
   useEffect(() => {
@@ -81,20 +81,37 @@ export default function ModelInteractive() {
     }
   }, [size, initSettings]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const containerPhones = containerIphoneRef.current;
+      if (!containerPhones) return;
+      if (size === "small") {
+        gsap.to(containerPhones.children, {
+          x: 0,
+          duration: 1,
+          ease: "power2.inOut",
+        });
+      } else {
+        const widthFirstChild = containerPhones?.children[0].clientWidth * -1;
+        gsap.to(containerPhones.children, {
+          x: widthFirstChild,
+          duration: 1,
+          ease: "power2.inOut",
+        });
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [size]);
+
   return (
-    <section
-      className="common-padding"
-      style={{
-        height: "100%",
-        border: "5px solid blue",
-        margin: "0 auto",
-      }}
-    >
+    <section className="common-padding mx-auto">
       <div ref={containerRef} className="screen-max-width">
         <h1 id="heading" className="section-heading mb-4">
           Take a closer look.s
         </h1>
-
         <div
           style={{
             overflow: "hidden",
@@ -104,18 +121,8 @@ export default function ModelInteractive() {
           className="h-[75vh] md:h-[80vh] md:w-full w-[80%] mx-auto "
           ref={containerIphoneRef}
         >
-          <InteractiveIphone
-            model={model}
-            scaleIphone={[30, 30, 30]}
-            index={1}
-            size={size}
-          />
-          <InteractiveIphone
-            model={model}
-            scaleIphone={[35, 35, 35]}
-            index={2}
-            size={size}
-          />
+          <InteractiveIphone size={size} index={0} model={model} scaleIphone={[30, 30, 30]} />
+          <InteractiveIphone size={size} index={1} model={model} scaleIphone={[35, 35, 35]} />
         </div>
 
         {/* buttons interactive */}

@@ -12,7 +12,6 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useFrame } from "@react-three/fiber";
 import { StaticImageData } from "next/image";
-import { strict } from "assert";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -92,10 +91,16 @@ type IphoneModelProps = {
   };
   scale?: [number, number, number];
   position?: [number, number, number];
+  rotate?: boolean;
 };
 
 // export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
-export function IphoneModel({ model, scale, position }: IphoneModelProps) {
+export function IphoneModel({
+  model,
+  scale,
+  position,
+  rotate,
+}: IphoneModelProps) {
   const { nodes, materials } = useGLTF(ubicacionModel) as GLTFResult;
   const groupRef = useRef<THREE.Group>(null);
 
@@ -117,9 +122,10 @@ export function IphoneModel({ model, scale, position }: IphoneModelProps) {
     });
   }, [materials, model]);
 
+  // control de rotacion del phone en foco
   useFrame(() => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += 0.004;
+    if (rotate && groupRef.current) {
+      groupRef.current.rotation.y += 0.006;
     }
   });
 
