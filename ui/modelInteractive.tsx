@@ -4,6 +4,8 @@ import { yellowImg } from "@/lib";
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import InteractiveIphone from "./interactiveIphone";
+import { title } from "process";
+import { color } from "three/examples/jsm/nodes/Nodes.js";
 
 export default function ModelInteractive() {
   // animacion #heading title
@@ -106,6 +108,21 @@ export default function ModelInteractive() {
     };
   }, [size]);
 
+  // verificacion de size para el titulo
+  useEffect(() => {
+    if (size === "small") {
+      setModel((prevModel) => ({
+        ...prevModel,
+        title: prevModel.title.replace("iPhone 15 Pro Max", "iPhone 15 Pro"),
+      }));
+    } else {
+      setModel((prevModel) => ({
+        ...prevModel,
+        title: prevModel.title.replace("iPhone 15 Pro", "iPhone 15 Pro Max"),
+      }));
+    }
+  }, [size]);
+
   return (
     <section className="common-padding mx-auto">
       <div ref={containerRef} className="screen-max-width">
@@ -121,8 +138,18 @@ export default function ModelInteractive() {
           className="h-[75vh] md:h-[80vh] md:w-full w-[80%] mx-auto "
           ref={containerIphoneRef}
         >
-          <InteractiveIphone size={size} index={0} model={model} scaleIphone={[30, 30, 30]} />
-          <InteractiveIphone size={size} index={1} model={model} scaleIphone={[35, 35, 35]} />
+          <InteractiveIphone
+            size={size}
+            index={0}
+            model={model}
+            scaleIphone={[30, 30, 30]}
+          />
+          <InteractiveIphone
+            size={size}
+            index={1}
+            model={model}
+            scaleIphone={[35, 35, 35]}
+          />
         </div>
 
         {/* buttons interactive */}
@@ -135,7 +162,20 @@ export default function ModelInteractive() {
                   key={i}
                   className="w-6 h-6 rounded-full mx-2 cursor-pointer"
                   style={{ backgroundColor: item.color[0] }}
-                  onClick={() => setModel(item)}
+                  onClick={() => {
+                    if (size === "large") {
+                      let newItem = {
+                        ...item,
+                        title: item.title.replace(
+                          "iPhone 15 Pro",
+                          "iPhone 15 Pro Max"
+                        ),
+                      };
+                      setModel(newItem);
+                    } else {
+                      setModel(item);
+                    }
+                  }}
                 />
               ))}
             </ul>
