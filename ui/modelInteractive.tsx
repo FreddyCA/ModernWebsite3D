@@ -4,8 +4,9 @@ import { yellowImg } from "@/lib";
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import InteractiveIphone from "./interactiveIphone";
-import { title } from "process";
-import { color } from "three/examples/jsm/nodes/Nodes.js";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function ModelInteractive() {
   // animacion #heading title
