@@ -158,7 +158,6 @@ export default function Features() {
                       alt="titanium"
                       className="feature-video "
                       loading="lazy"
-                      fill
                     />
                   </div>
                 </div>
@@ -181,7 +180,6 @@ export default function Features() {
                       alt="titanium 2"
                       className="feature-video "
                       loading="lazy"
-                      fill
                     />
                   </div>
                 </div>
