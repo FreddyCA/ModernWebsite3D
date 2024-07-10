@@ -64,12 +64,7 @@ export default function HowItWorks() {
 
   return (
     <section className="common-padding">
-      <div
-        className="screen-max-width"
-        // style={{
-        //   width: "minContent",
-        // }}
-      >
+      <div className="screen-max-width">
         <div id="chip" className="flex-center my-20 ">
           <Image src={chipImg} alt="chip" width={180} height={180} />
         </div>

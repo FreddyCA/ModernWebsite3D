@@ -94,7 +94,6 @@ type IphoneModelProps = {
   rotate?: boolean;
 };
 
-// export function IphoneModel(props: JSX.IntrinsicElements["group"]) {
 export function IphoneModel({
   model,
   scale,

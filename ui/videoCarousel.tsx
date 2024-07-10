@@ -36,7 +36,6 @@ export default function VideoCarousel() {
         trigger: container,
         start: "bottom 90%",
         end: "top 50%",
-        // markers: true,
         onEnter: () => {
           setInitVideo(true);
         },

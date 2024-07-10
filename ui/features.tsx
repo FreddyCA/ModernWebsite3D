@@ -157,7 +157,8 @@ export default function Features() {
                       src={explore1Img}
                       alt="titanium"
                       className="feature-video "
-                      priority={true}
+                      loading="lazy"
+                      fill
                     />
                   </div>
                 </div>
@@ -179,6 +180,8 @@ export default function Features() {
                       src={explore2Img}
                       alt="titanium 2"
                       className="feature-video "
+                      loading="lazy"
+                      fill
                     />
                   </div>
                 </div>
