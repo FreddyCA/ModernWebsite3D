@@ -122,7 +122,7 @@ export default function Features() {
             </h2>
           </div>
 
-          <div className="flex-center flex-col sm:px-10">
+          <div className="flex-center flex-col sm:px-10 mx-auto">
             <div className="relative h-[50vh] w-full flex items-center">
               <video
                 playsInline

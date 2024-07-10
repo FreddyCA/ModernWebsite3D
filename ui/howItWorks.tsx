@@ -10,8 +10,29 @@ gsap.registerPlugin(ScrollTrigger);
 export default function HowItWorks() {
   const frameVideo = "/assets/videos/frame.mp4";
 
-  //   const videoRef = useRef();
-  //   AGREGAR ANIMACION CUANDO ESTE EN FOCUS EL VIDEOREF .PLAY()
+  // ANIMACION VIDEO
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (!videoRef.current) return;
+    const videoItem = videoRef.current;
+    ScrollTrigger.refresh();
+    const animation = gsap.to(videoItem, {
+      scrollTrigger: {
+        trigger: videoItem,
+        toggleActions: "play pause reverse restart",
+        start: "top 70%",
+        end: "bottom 50%",
+        once: true,
+        onEnter: () => {
+          videoItem.play();
+        },
+      },
+    });
+
+    return () => {
+      animation.scrollTrigger?.kill();
+    };
+  }, []);
 
   //   ANIMACION CHIP
   const chipRef = useRef<HTMLDivElement>(null);
@@ -23,7 +44,7 @@ export default function HowItWorks() {
     const tlChip = gsap.timeline({
       scrollTrigger: {
         trigger: chipItem,
-        start: "top 85%",
+        start: "top 90%",
         end: "bottom 50%",
         once: true,
         toggleActions: "play none none reverse",
@@ -107,8 +128,7 @@ export default function HowItWorks() {
                 playsInline
                 preload="none"
                 muted
-                autoPlay
-                // ref={videoRef}
+                ref={videoRef}
               >
                 <source src={frameVideo} type="video/mp4" />
               </video>
