@@ -241,11 +241,6 @@ export default function VideoCarousel() {
         >
           {hightlightsSlides.map((list, index) => (
             <div
-              style={
-                {
-                  // margin: "0 60px 0 0",
-                }
-              }
               key={list.id}
               className="video-carousel_container sm:mr-12 mr-5"
               ref={(el) => {

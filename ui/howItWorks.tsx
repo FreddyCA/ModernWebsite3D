@@ -34,35 +34,6 @@ export default function HowItWorks() {
     };
   }, []);
 
-  //   ANIMACION CHIP
-  const chipRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const chipItem = chipRef.current;
-
-    if (!chipItem) return;
-
-    const tlChip = gsap.timeline({
-      scrollTrigger: {
-        trigger: chipItem,
-        start: "top 90%",
-        end: "bottom 50%",
-        once: true,
-        toggleActions: "play none none reverse",
-      },
-    });
-
-    tlChip.to(chipItem, {
-      opacity: 1,
-      scale: 1,
-      ease: "power2.inOut",
-      duration: 2,
-    });
-
-    return () => {
-      tlChip.scrollTrigger?.kill();
-    };
-  }, []);
-
   //   ANIMACION TEXTOS
   const textContainRef = useRef<HTMLDivElement[]>([]);
   useEffect(() => {
@@ -93,16 +64,17 @@ export default function HowItWorks() {
 
   return (
     <section className="common-padding">
-      <div className="screen-max-width">
-        <div
-          ref={chipRef}
-          id="chip"
-          className="flex-center w-full my-20 opacity-0 scale-150"
-        >
+      <div
+        className="screen-max-width"
+        // style={{
+        //   width: "minContent",
+        // }}
+      >
+        <div id="chip" className="flex-center my-20 ">
           <Image src={chipImg} alt="chip" width={180} height={180} />
         </div>
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center flex-wrap">
           <h2 className="hiw-title">
             A17 Pro chip.
             <br /> A monster win for gaming.
@@ -154,7 +126,6 @@ export default function HowItWorks() {
               .
             </p>
 
-            {/* <p className="hiw-text g_fadeIn"> */}
             <p className="hiw-text">
               Mobile{" "}
               <span className="text-white">
