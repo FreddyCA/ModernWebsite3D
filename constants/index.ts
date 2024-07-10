@@ -74,10 +74,10 @@ export const sizes = [
   { label: '6.7"', value: "large" },
 ];
 
-// export const footerLinks = [
-//   "Privacy Policy",
-//   "Terms of Use",
-//   "Sales Policy",
-//   "Legal",
-//   "Site Map",
-// ];
+export const footerLinks = [
+  "Privacy Policy",
+  "Terms of Use",
+  "Sales Policy",
+  "Legal",
+  "Site Map",
+];

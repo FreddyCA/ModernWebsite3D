@@ -4,6 +4,7 @@ import Highlights from "@/ui/highlights";
 import ModelInteractive from "@/ui/modelInteractive";
 import Features from "@/ui/features";
 import HowItWorks from "@/ui/howItWorks";
+import Footer from "@/ui/footer";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <ModelInteractive />
       <Features />
       <HowItWorks />
+      <Footer />
     </main>
   );
 }
