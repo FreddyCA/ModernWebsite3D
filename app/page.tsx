@@ -3,6 +3,7 @@ import Navbar from "@/ui/navbar";
 import Highlights from "@/ui/highlights";
 import ModelInteractive from "@/ui/modelInteractive";
 import Features from "@/ui/features";
+import HowItWorks from "@/ui/howItWorks";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Highlights />
       <ModelInteractive />
       <Features />
+      <HowItWorks />
     </main>
   );
 }

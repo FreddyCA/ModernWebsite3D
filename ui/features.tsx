@@ -156,7 +156,8 @@ export default function Features() {
                     <Image
                       src={explore1Img}
                       alt="titanium"
-                      className="feature-video g_grow"
+                      className="feature-video "
+                      priority={true}
                     />
                   </div>
                 </div>
@@ -177,7 +178,7 @@ export default function Features() {
                     <Image
                       src={explore2Img}
                       alt="titanium 2"
-                      className="feature-video g_grow"
+                      className="feature-video "
                     />
                   </div>
                 </div>
